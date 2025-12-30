@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Attendance | Naogaon Polytechnic Institute</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-inner">
+            <h1>E-Attendance</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="goHome()">Home</a></li>
+                    <li><a href="#" onclick="openAbout()">About</a></li>
+                    <li><a href="#" onclick="openService()">Service</a></li>
+                    <li><a href="#" onclick="openContact()">Contact</a></li>
+                    <li><a href="#" onclick="openDashboard()">Dashboard</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- COURSES -->
+        <section id="courses">
+            <h2 class="npi">Naogaon Polytechnic Institute</h2>
+            <div class="grid">
+                <div class="box" onclick="openSemester('Civil Engineering')">Civil Engineering</div>
+                <div class="box" onclick="openSemester('Computer Science and Technology')">Computer Science and
+                    Technology</div>
+                <div class="box" onclick="openSemester('Architecture and Interior Design')">Architecture and Interior
+                    Design</div>
+                <div class="box" onclick="openSemester('Environmental Engineering')">Environmental Engineering</div>
+                <div class="box" onclick="openSemester('Food Engineering')">Food Engineering </div>
+            </div>
+        </section>
+
+        <!-- SEMESTERS -->
+        <section id="semesters" class="hidden">
+            <span class="back" onclick="goBack('semesters','courses')">← Back to Courses</span>
+            <h2 id="courseTitle"></h2>
+            <div class="grid">
+                <div class="box" onclick="openMonths('First Semester')">First Semester</div>
+                <div class="box" onclick="openMonths('Second Semester')">Second Semester</div>
+                <div class="box" onclick="openMonths('Third Semester')">Third Semester</div>
+                <div class="box" onclick="openMonths('Fourth Semester')">Fourth Semester</div>
+                <div class="box" onclick="openMonths('Fifth Semester')">Fifth Semester</div>
+                <div class="box" onclick="openMonths('Sixth Semester')">Sixth Semester</div>
+                <div class="box" onclick="openMonths('Seventh Semester')">Seventh Semester</div>
+                <div class="box" onclick="openMonths('Eighth Semester')">Eighth Semester</div>
+            </div>
+        </section>
+
+        <!-- MONTHS -->
+        <section id="months" class="hidden">
+            <span class="back" onclick="goBack('months','semesters')">← Back to Semesters</span>
+            <h2 id="semesterTitle"></h2>
+            <div class="grid">
+                <div class="box" onclick="openAttendance('January')">January</div>
+                <div class="box" onclick="openAttendance('February')">February</div>
+                <div class="box" onclick="openAttendance('March')">March</div>
+                <div class="box" onclick="openAttendance('April')">April</div>
+                <div class="box" onclick="openAttendance('May')">May</div>
+                <div class="box" onclick="openAttendance('June')">June</div>
+                <div class="box" onclick="openAttendance('July')">July</div>
+                <div class="box" onclick="openAttendance('August')">August</div>
+                <div class="box" onclick="openAttendance('September')">September</div>
+                <div class="box" onclick="openAttendance('October')">October</div>
+                <div class="box" onclick="openAttendance('November')">November</div>
+                <div class="box" onclick="openAttendance('December')">December</div>
+            </div>
+        </section>
+
+        <!-- ATTENDANCE SECTION -->
+        <section id="attendance" class="hidden">
+            <span class="back" onclick="goBack('attendance','months')">← Back to Months</span>
+            <div class="att-header">
+                <h1>Fingerprint Digital Attendance System</h1>
+                <h3 id="attLine"></h3>
+                <h4 id="attMonth"></h4>
+            </div>
+
+            <div class="container">
+                <!-- STATISTICS -->
+                <div class="stats-grid" id="statsContainer"></div>
+
+                <!-- FILTERS -->
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Date:</label>
+                        <input type="date" id="filterDate" onchange="filterAttendance()">
+                    </div>
+                    <div class="filter-group">
+                        <label>Status:</label>
+                        <select id="filterStatus" onchange="filterAttendance()">
+                            <option value="">All</option>
+                            <option value="present">Present</option>
+                            <option value="absent">Absent</option>
+                            <option value="late">Late</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Department:</label>
+                        <select id="filterDept" onchange="filterAttendance()">
+                            <option value="">All</option>
+                            <option>CSE</option>
+                            <option>EEE</option>
+                            <option>ME</option>
+                            <option>CE</option>
+                            <option>ARCH</option>
+                            <option>ENV</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                </div>
+
+                <!-- STUDENT MANAGEMENT -->
+                <div class="card">
+                    <h2>Student Management</h2>
+                    <div class="form-row">
+                        <input id="roll" placeholder="Roll Number" onkeypress="if(event.key==='Enter')addStudent()">
+                        <input id="name" placeholder="Full Name" onkeypress="if(event.key==='Enter')addStudent()">
+                        <select id="department">
+                            <option value="">Select Department</option>
+                            <option>CSE</option>
+                            <option>EEE</option>
+                            <option>ME</option>
+                            <option>CE</option>
+                            <option>ARCH</option>
+                            <option>ENV</option>
+                        </select>
+                        <button class="btn btn-success" onclick="addStudent()">Add Student</button>
+                        <button class="btn btn-info" onclick="importStudents()">Import CSV</button>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Roll</th>
+                                <th>Name</th>
+                                <th>Dept</th>
+                                <th>Finger ID</th>
+                                <th>Attendance %</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentTable"></tbody>
+                    </table>
+                </div>
+
+                <!-- ATTENDANCE LOG -->
+                <div class="card">
+                    <h2>Attendance Log
+                        <button class="btn btn-warning" onclick="markAllPresent()" style="float:right">Mark All
+                            Present</button>
+                        <button class="btn btn-primary" onclick="exportCSV()"
+                            style="float:right;margin-right:10px">Export CSV</button>
+                        <button class="btn btn-success" onclick="openScan()" style="float:right;margin-right:10px">Take
+                            Attendance</button>
+                    </h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Roll</th>
+                                <th>Name</th>
+                                <th>Dept</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTable"></tbody>
+                    </table>
+                </div>
+
+                <!-- QUICK ATTENDANCE -->
+                <div class="card">
+                    <h2>Quick Attendance</h2>
+                    <div class="form-row">
+                        <select id="quickRoll" onchange="quickFill()">
+                            <option value="">Select Student</option>
+                        </select>
+                        <select id="quickStatus">
+                            <option value="present">Present</option>
+                            <option value="absent">Absent</option>
+                            <option value="late">Late</option>
+                        </select>
+                        <input type="time" id="quickTime" value="">
+                        <button class="btn btn-success" onclick="markAttendance()">Mark Attendance</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENROLL MODAL -->
+            <div class="modal" id="enrollModal">
+                <div class="modal-content">
+                    <h3>Enroll Fingerprint</h3>
+                    <p>Select student and scan fingerprint</p>
+                    <select id="enrollStudent"></select>
+                    <div class="fingerprint" id="enrollFinger" onclick="startEnroll()">
+                        <div>Click to Start Scan</div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn btn-success" onclick="startEnroll()">Scan & Save</button>
+                        <button class="btn btn-danger" onclick="closeEnroll()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCAN MODAL -->
+            <div class="modal" id="scanModal">
+                <div class="modal-content">
+                    <h3>Fingerprint Attendance</h3>
+                    <div class="fingerprint scanning" id="scanFinger">Scanning...</div>
+                    <div class="modal-buttons">
+                        <button class="btn btn-primary" onclick="startScan()">Start Scan</button>
+                        <button class="btn btn-danger" onclick="closeScan()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EDIT MODAL -->
+            <div class="modal" id="editModal">
+                <div class="modal-content">
+                    <h3>Edit Attendance</h3>
+                    <div class="form-row">
+                        <input id="editRoll" readonly>
+                        <input id="editName" readonly>
+                    </div>
+                    <div class="form-row">
+                        <input type="date" id="editDate">
+                        <input type="time" id="editTime">
+                    </div>
+                    <div class="form-row">
+                        <select id="editStatus">
+                            <option value="present">Present</option>
+                            <option value="absent">Absent</option>
+                            <option value="late">Late</option>
+                        </select>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="btn btn-success" onclick="saveEdit()">Save</button>
+                        <button class="btn btn-danger" onclick="closeEdit()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="hidden">
+            <span class="back" onclick="goHome()">← Back to Home</span>
+            <h2>Attendance Dashboard</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Students</h3>
+                    <p id="totalStudents" class="stat-total">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Today's Attendance</h3>
+                    <p id="todayAttendance">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Monthly Average</h3>
+                    <p id="monthlyAverage">0%</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Enrolled Fingers</h3>
+                    <p id="enrolledFingers">0</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Recent Attendance</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Present</th>
+                            <th>Absent</th>
+                            <th>Late</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboardTable"></tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h2>Department-wise Statistics</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Department</th>
+                            <th>Students</th>
+                            <th>Attendance %</th>
+                            <th>Today</th>
+                        </tr>
+                    </thead>
+                    <tbody id="deptStats"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="aboutPage" class="hidden">
+            <div class="about-box">
+                <h2>আমাদের ই-Attendance সিস্টেম সম্পর্কে</h2>
+                <p>
+                    এটি একটি আধুনিক ই-Attendance (Electronic Attendance) সিস্টেম।
+                    এর মাধ্যমে শিক্ষকরা খুব সহজে অনলাইনে অথবা ল্যাপটপ ব্যবহার করে
+                    শিক্ষার্থীদের হাজিরা নিতে পারবেন।
+                </p>
+
+                <h2>এই সিস্টেম ব্যবহারের সুবিধাসমূহ</h2>
+                <ul>
+                    <li>খাতা-কলমের ঝামেলা নেই, সম্পূর্ণ ডিজিটাল পদ্ধতিতে হাজিরা নেওয়া যায়।</li>
+                    <li>প্রতিটি শিক্ষার্থীর সকল বায়োডাটা সংরক্ষিত থাকবে।</li>
+                    <li>উপস্থিত ও অনুপস্থিতের শতকরা হিসাব স্বয়ংক্রিয়ভাবে বের হবে।</li>
+                    <li>সকল তথ্য ব্রাউজারের LocalStorage-এ সংরক্ষিত থাকে।</li>
+                    <li>CSV এক্সপোর্ট এবং ইমপোর্টের সুবিধা রয়েছে।</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SERVICE PAGE -->
+        <section id="servicePage" class="hidden">
+            <div class="service-box">
+                <h2>আমাদের e-Attendance সিস্টেমের সার্ভিসসমূহ</h2>
+                <ul>
+                    <li>অনলাইন হাজিরা গ্রহণ</li>
+                    <li>শিক্ষার্থীর পূর্ণ তথ্য সংরক্ষণ</li>
+                    <li>মাসভিত্তিক হাজিরা রিপোর্ট</li>
+                    <li>উপস্থিতির শতকরা হিসাব</li>
+                    <li>নিরাপদ ডাটা সংরক্ষণ (LocalStorage)</li>
+                    <li>ফিঙ্গারপ্রিন্ট এনরোলমেন্ট</li>
+                    <li>CSV এক্সপোর্ট/ইমপোর্ট</li>
+                    <li>ড্যাশবোর্ড এনালিটিক্স</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        Developed by
+        <a href="https://www.facebook.com/share/1CEeC2AAis/" target="_blank">
+            Murad Hasan
+        </a> and Umme Salma
+    </footer>
+
+    <!-- CONTACT POPUP -->
+    <div class="contact-popup" id="contactPopup">
+        <div class="contact-box">
+            <h2>Contact Info</h2>
+            <p>📞 Mobile:<br><a href="tel:01725734610">01725734610</a></p>
+            <p>💬 WhatsApp:<br><a href="https://wa.me/8801725734610" target="_blank">01725734610</a></p>
+            <p>🌐 Facebook:<br>
+                <a href="https://www.facebook.com/share/1CEeC2AAis/" target="_blank">
+                    Murad Hasan
+                </a>
+            </p>
+            <button onclick="closeContact()">Close</button>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION -->
+    <div id="notification" class="notification hidden"></div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
